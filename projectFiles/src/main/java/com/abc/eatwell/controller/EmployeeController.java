@@ -4,13 +4,12 @@ import com.abc.eatwell.common.R;
 import com.abc.eatwell.entity.Employee;
 import com.abc.eatwell.service.EmployeeService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -94,5 +93,56 @@ public class EmployeeController {
 
         employeeService.save(employee);
         return R.success("add new employee success");
+    }
+
+    /**
+     * search for employee information in page segmentation
+     * @param page
+     * @param pageSize
+     * @param name
+     * @return
+     */
+    @GetMapping("/page")
+    public R<Page> page(int page, int pageSize, String name) {
+
+        // construct page segmentation constructor
+        Page pageInfo = new Page(page, pageSize);
+
+        // construct condition constructor
+        LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
+        // add conditions
+        queryWrapper.like(StringUtils.isNotEmpty(name), Employee::getName, name);
+        // add sort condition
+        queryWrapper.orderByDesc(Employee::getUpdateTime);
+
+        employeeService.page(pageInfo, queryWrapper);
+        return R.success(pageInfo);
+    }
+
+    /**
+     * change employee information based on id
+     * @param employee
+     * @return
+     */
+    @PutMapping
+    public R<String> update(HttpServletRequest request, @RequestBody Employee employee) {
+
+        Long curEmployeeId = (Long) request.getSession().getAttribute("employee");
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(curEmployeeId);
+        employeeService.updateById(employee);
+
+        return R.success("update employee info success");
+    }
+
+    /**
+     * get employee information by id
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public R<Employee> getById(@PathVariable Long id) {
+        Employee employee = employeeService.getById(id);
+        return R.success(employee);
     }
 }
