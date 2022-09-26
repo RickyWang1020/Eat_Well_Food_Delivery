@@ -29,7 +29,8 @@ public class LoginCheckFilter implements Filter {
                 "/employee/login",
                 "employee/logout",
                 "/server/**",
-                "/front/**"
+                "/front/**",
+                "/common/**"
         };
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
