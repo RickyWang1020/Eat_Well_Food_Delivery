@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 
 @Slf4j
 @RestController
@@ -70,5 +71,28 @@ public class EmployeeController {
         // clear the employee's id from Session
         request.getSession().removeAttribute("employee");
         return R.success("logout success");
+    }
+
+    /**
+     * Add new employee
+     * @param employee
+     * @return
+     */
+    @PostMapping
+    public R<String> save(HttpServletRequest request, @RequestBody Employee employee) {
+
+        // add default password (123456) to employee
+        employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
+
+        // set default create time, update time
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());
+        // set the create user, update user as the current user
+        Long curEmployeeId = (Long) request.getSession().getAttribute("employee");
+        employee.setCreateUser(curEmployeeId);
+        employee.setUpdateUser(curEmployeeId);
+
+        employeeService.save(employee);
+        return R.success("add new employee success");
     }
 }
