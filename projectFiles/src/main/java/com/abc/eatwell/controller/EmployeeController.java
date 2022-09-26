@@ -83,13 +83,13 @@ public class EmployeeController {
         // add default password (123456) to employee
         employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
 
-        // set default create time, update time
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
-        // set the create user, update user as the current user
-        Long curEmployeeId = (Long) request.getSession().getAttribute("employee");
-        employee.setCreateUser(curEmployeeId);
-        employee.setUpdateUser(curEmployeeId);
+//        // set default create time, update time
+//        employee.setCreateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
+//        // set the create user, update user as the current user
+//        Long curEmployeeId = (Long) request.getSession().getAttribute("employee");
+//        employee.setCreateUser(curEmployeeId);
+//        employee.setUpdateUser(curEmployeeId);
 
         employeeService.save(employee);
         return R.success("add new employee success");
@@ -106,7 +106,7 @@ public class EmployeeController {
     public R<Page> page(int page, int pageSize, String name) {
 
         // construct page segmentation constructor
-        Page pageInfo = new Page(page, pageSize);
+        Page<Employee> pageInfo = new Page(page, pageSize);
 
         // construct condition constructor
         LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();

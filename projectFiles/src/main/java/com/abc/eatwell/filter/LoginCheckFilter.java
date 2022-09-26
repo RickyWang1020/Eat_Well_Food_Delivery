@@ -1,5 +1,6 @@
 package com.abc.eatwell.filter;
 
+import com.abc.eatwell.common.BaseContext;
 import com.abc.eatwell.common.R;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +49,9 @@ public class LoginCheckFilter implements Filter {
 
         // 4. check the login status of the user, if logged in, then also filter
         if (request.getSession().getAttribute("employee") != null) {
+            // get current employee id and set it in the local thread
+            Long curEmpId = (Long) request.getSession().getAttribute("employee");
+            BaseContext.setCurrentId(curEmpId);
             filterChain.doFilter(request, response);
             return;
         }

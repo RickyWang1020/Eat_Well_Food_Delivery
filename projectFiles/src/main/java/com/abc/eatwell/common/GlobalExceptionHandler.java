@@ -15,6 +15,11 @@ import java.sql.SQLIntegrityConstraintViolationException;
 @ResponseBody
 public class GlobalExceptionHandler {
 
+    /**
+     * sql exception handler
+     * @param ex
+     * @return
+     */
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public R<String> exceptionHandler(SQLIntegrityConstraintViolationException ex) {
 
@@ -25,5 +30,16 @@ public class GlobalExceptionHandler {
         }
 
         return R.error("unknown error");
+    }
+
+    /**
+     * custom exception handler
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(CustomException.class)
+    public R<String> exceptionHandler(CustomException ex) {
+
+        return R.error(ex.getMessage());
     }
 }

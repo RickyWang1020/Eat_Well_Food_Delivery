@@ -178,7 +178,7 @@
                         }
                       }
                     } else {
-                      this.$message.error(res.msg || 'Operation failed')
+                      this.$message.error(res.msg || 'Update failed')
                     }
                   }).catch(err => {
                     this.$message.error('Request error：' + err)
@@ -193,7 +193,7 @@
                       this.$message.success('Update Employee Successful！')
                       this.goBack()
                     } else {
-                      this.$message.error(res.msg || 'Operation failed')
+                      this.$message.error(res.msg || 'Update failed')
                     }
                   }).catch(err => {
                     this.$message.error('Request error：' + err)
