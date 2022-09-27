@@ -1,6 +1,6 @@
 package com.abc.eatwell.config;
 
-import com.itheima.reggie.common.JacksonObjectMapper;
+import com.abc.eatwell.common.JacksonObjectMapper;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;

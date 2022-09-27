@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * category management
  */
@@ -64,6 +66,25 @@ public class CategoryController {
     public R<String> update(@RequestBody Category category) {
         categoryService.updateById(category);
         return R.success("update category success");
+    }
+
+    /**
+     * based on the condition, query for category data
+     * @param category
+     * @return
+     */
+    @GetMapping("/list")
+    public R<List<Category>> list(Category category) {
+
+        // condition constructor
+        LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
+        // add condition
+        queryWrapper.eq(category.getType() != null, Category::getType, category.getType());
+        // add sorting condition
+        queryWrapper.orderByAsc(Category::getSort).orderByDesc(Category::getUpdateTime);
+
+        List<Category> categoryList = categoryService.list(queryWrapper);
+        return R.success(categoryList);
     }
 
 }

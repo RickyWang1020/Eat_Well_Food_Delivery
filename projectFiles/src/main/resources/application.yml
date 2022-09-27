@@ -20,4 +20,4 @@ mybatis-plus:
       id-type: ASSIGN_ID
 
 eat-well:
-  path: /Users/lahmwang/Desktop/
+  path: /Users/lahmwang/EatWellFoodDelivery/imgs/

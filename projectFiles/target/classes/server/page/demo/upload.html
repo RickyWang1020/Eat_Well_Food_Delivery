@@ -48,7 +48,7 @@
               const suffix = file.name.split('.')[1]
               const size = file.size / 1024 / 1024 < 2
               if(['png','jpeg','jpg'].indexOf(suffix) < 0){
-                this.$message.error('Only png、jpeg、jpg are valid!')
+                this.$message.error('Only png, jpeg, jpg are valid!')
                 this.$refs.upload.clearFiles()
                 return false
               }
