@@ -1,2 +1,4 @@
 projectFiles/src/main/resources/server/** linguist-detectable=false
-
+projectFiles/src/main/resources/front/** linguist-detectable=false
+projectFiles/src/main/resources/server/api/** linguist-detectable=true
+projectFiles/src/main/resources/server/index.html linguist-detectable=true
