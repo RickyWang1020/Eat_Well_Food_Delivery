@@ -2,7 +2,7 @@ projectFiles/src/main/resources/server/images/** linguist-detectable=false
 projectFiles/src/main/resources/server/js/** linguist-detectable=false
 projectFiles/src/main/resources/server/page/** linguist-detectable=false
 projectFiles/src/main/resources/server/plugins/** linguist-detectable=false
-projectFiles/src/main/resources/server/styles linguist-detectable=false
+projectFiles/src/main/resources/server/styles/** linguist-detectable=false
 
 projectFiles/src/main/resources/front/** linguist-detectable=false
 
