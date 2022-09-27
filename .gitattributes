@@ -1,6 +1,3 @@
-projectFiles/src/main/resources/server/api/** linguist-detectable=true
-projectFiles/src/main/resources/server/index.html linguist-detectable=true
-
 projectFiles/src/main/resources/server/images/** linguist-detectable=false
 projectFiles/src/main/resources/server/js/** linguist-detectable=false
 projectFiles/src/main/resources/server/page/** linguist-detectable=false
@@ -11,4 +8,8 @@ projectFiles/src/main/resources/front/** linguist-detectable=false
 
 projectFiles/target/classes/front/** linguist-detectable=false
 projectFiles/target/classes/server/** linguist-detectable=false
+
+projectFiles/src/main/resources/server/api/** linguist-detectable=true
+projectFiles/src/main/resources/server/index.html linguist-detectable=true
+
 
