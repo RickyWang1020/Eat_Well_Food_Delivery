@@ -1,3 +1,1 @@
-projectFiles/src/main/resources/server/** linguist-vendored
-projectFiles/src/main/resources/front/** linguist-vendored
-
+*.* linguist-language=Java
