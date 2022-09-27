@@ -1,1 +1,3 @@
-*.* linguist-language=Java
+projectFiles/src/main/resources/server/** linguist-detectable=false
+projectFiles/src/main/resources/front/** linguist-detectable=false
+
