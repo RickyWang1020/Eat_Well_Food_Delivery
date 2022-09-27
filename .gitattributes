@@ -1,2 +1,3 @@
-projectFiles/src/main/resources/server linguist-vendored=false
+projectFiles/src/main/resources/server/* linguist-vendored=false
+projectFiles/src/main/resources/front/* linguist-vendored=false
 
