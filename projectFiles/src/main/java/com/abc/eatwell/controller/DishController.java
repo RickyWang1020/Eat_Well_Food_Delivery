@@ -111,4 +111,22 @@ public class DishController {
         dishService.updateWithFlavor(dishDto);
         return R.success("add new dish success");
     }
+
+    /**
+     * query for dish information based on conditions
+     * @param dish
+     * @return
+     */
+    @GetMapping("/list")
+    public R<List<Dish>> list(Dish dish) {
+        LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
+        // query for all the dishes in this category
+        queryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
+        // the dish's status must be 1 (available)
+        queryWrapper.eq(Dish::getStatus, 1);
+        queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
+        List<Dish> lst = dishService.list(queryWrapper);
+
+        return R.success(lst);
+    }
 }
