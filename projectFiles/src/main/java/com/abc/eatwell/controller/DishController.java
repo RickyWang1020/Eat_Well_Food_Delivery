@@ -4,6 +4,7 @@ import com.abc.eatwell.common.R;
 import com.abc.eatwell.dto.DishDto;
 import com.abc.eatwell.entity.Category;
 import com.abc.eatwell.entity.Dish;
+import com.abc.eatwell.entity.DishFlavor;
 import com.abc.eatwell.service.CategoryService;
 import com.abc.eatwell.service.DishFlavorService;
 import com.abc.eatwell.service.DishService;
@@ -117,8 +118,26 @@ public class DishController {
      * @param dish
      * @return
      */
+//    @GetMapping("/list")
+//    public R<List<Dish>> list(Dish dish) {
+//        LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
+//        // query for all the dishes in this category
+//        queryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
+//        // the dish's status must be 1 (available)
+//        queryWrapper.eq(Dish::getStatus, 1);
+//        queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
+//        List<Dish> lst = dishService.list(queryWrapper);
+//
+//        return R.success(lst);
+//    }
+
+    /**
+     * query for dish information based on conditions
+     * @param dish
+     * @return
+     */
     @GetMapping("/list")
-    public R<List<Dish>> list(Dish dish) {
+    public R<List<DishDto>> list(Dish dish) {
         LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
         // query for all the dishes in this category
         queryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
@@ -127,6 +146,26 @@ public class DishController {
         queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
         List<Dish> lst = dishService.list(queryWrapper);
 
-        return R.success(lst);
+        List<DishDto> dishDtoList = lst.stream().map(item -> {
+            DishDto dishDto = new DishDto();
+            BeanUtils.copyProperties(item, dishDto);
+            Long categoryId = item.getCategoryId(); // category id
+            // get the category object by id
+            Category category = categoryService.getById(categoryId);
+            if (category != null) {
+                String categoryName = category.getName();
+                dishDto.setCategoryName(categoryName);
+            }
+
+            // current dish's id
+            Long dishId = item.getId();
+            LambdaQueryWrapper<DishFlavor> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper.eq(DishFlavor::getDishId, dishId);
+            List<DishFlavor> dishFlavorList = dishFlavorService.list(lambdaQueryWrapper);
+            dishDto.setFlavors(dishFlavorList);
+            return dishDto;
+        }).collect(Collectors.toList());
+
+        return R.success(dishDtoList);
     }
 }

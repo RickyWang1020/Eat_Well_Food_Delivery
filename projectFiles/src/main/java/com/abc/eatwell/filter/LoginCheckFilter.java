@@ -30,7 +30,9 @@ public class LoginCheckFilter implements Filter {
                 "employee/logout",
                 "/server/**",
                 "/front/**",
-                "/common/**"
+                "/common/**",
+                "/user/sendMsg",
+                "/user/login"
         };
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
@@ -48,11 +50,20 @@ public class LoginCheckFilter implements Filter {
             return;
         }
 
-        // 4. check the login status of the user, if logged in, then also filter
+        // 4-1. check the login status of the employee, if logged in, then also filter
         if (request.getSession().getAttribute("employee") != null) {
             // get current employee id and set it in the local thread
             Long curEmpId = (Long) request.getSession().getAttribute("employee");
             BaseContext.setCurrentId(curEmpId);
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // 4-2. check the login status of the user, if logged in, then also filter
+        if (request.getSession().getAttribute("user") != null) {
+            // get current employee id and set it in the local thread
+            Long curUserId = (Long) request.getSession().getAttribute("user");
+            BaseContext.setCurrentId(curUserId);
             filterChain.doFilter(request, response);
             return;
         }

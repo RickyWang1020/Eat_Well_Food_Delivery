@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no,minimal-ui">
-    <title>菩提阁</title>
+    <title>Eat Well Restaurant</title>
     <link rel="icon" href="images/favico.ico">
     <!--不同屏幕尺寸根字体设置-->
     <script src="./js/base.js"></script>
@@ -27,16 +27,16 @@
         <div class="divStatic">
           <img src="./images/logo.png"  class="logo"/>
           <div class="divDesc">
-            <div class="divName">菩提阁餐厅</div>
+            <div class="divName">Eat Well</div>
             <div class="divSend">
-                <span><img src="./images/time.png"/> 距离1.5km</span>
-                <span><img src="./images/money.png"/> 配送费6元</span>
-                <span><img src="./images/location.png"/> 预计时长12min</span>
+                <span><img src="./images/time.png"/>1.5 mi away</span>
+                <span><img src="./images/money.png"/> Delivery $5</span>
+                <span><img src="./images/location.png"/> 20 min</span>
             </div>
           </div>
         </div>
         <div class="divDesc">
-          简介: 菩提阁中餐厅是菩提阁点餐的独立的品牌，定位“大众 化的美食外送餐饮”，旨为顾客打造专业美食。
+          Eat Well for a Better Life
         </div>
       </div>
       <div class="divBody">
@@ -56,7 +56,7 @@
               <div>
                 <div class="divName">{{item.name}}</div>
                 <div class="divDesc">{{item.description}}</div>
-                <div class="divDesc">{{'月销' + (item.saleNum ? item.saleNum : 0)  }}</div>
+                <div class="divDesc">{{(item.saleNum ? item.saleNum : 0) + ' sold'  }}</div>
                 <div class="divBottom"><span>￥</span><span>{{item.price/100}}</span></div>
                 <div class="divNum">
                   <div class="divSubtract" v-if="item.number > 0">
@@ -86,7 +86,7 @@
               <span>{{goodsPrice}}</span>
           </div>
           <div class="divPrice"></div>
-          <div :class="{btnSubmitActive: cartData && cartData.length > 0, btnSubmit:!cartData || cartData.length<1}" @click="toAddOrderPage">去结算</div>
+          <div :class="{btnSubmitActive: cartData && cartData.length > 0, btnSubmit:!cartData || cartData.length<1}" @click="toAddOrderPage">Checkout</div>
         </div>
         <van-dialog v-model="dialogFlavor.show" :show-confirm-button="false" class="dialogFlavor" ref="flavorDialog">
           <div class="dialogTitle">{{dialogFlavor.name}}</div>
@@ -164,7 +164,7 @@
                   <img src="./images/subtract.png" @click="subtractCart(detailsDialog.item)"/>
                 </div>
                 <div class="divDishNum">{{detailsDialog.item.number}}</div>
-                <div class="divTypes" v-if="detailsDialog.item.flavors && detailsDialog.item.flavors.length > 0 && !detailsDialog.item.number " @click ="chooseFlavorClick(detailsDialog.item)">选择规格</div>
+                <div class="divTypes" v-if="detailsDialog.item.flavors && detailsDialog.item.flavors.length > 0 && !detailsDialog.item.number " @click ="chooseFlavorClick(detailsDialog.item)">Specify</div>
                 <div class="divAdd" v-else>
                   <img src="./images/add.png" @click="addCart(detailsDialog.item)"/>
                 </div>

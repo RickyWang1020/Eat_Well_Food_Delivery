@@ -19,7 +19,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/server/**").addResourceLocations("classpath:/server/");
-        registry.addResourceHandler("/client/**").addResourceLocations("classpath:/client/");
+        registry.addResourceHandler("/front/**").addResourceLocations("classpath:/front/");
     }
 
     /**
