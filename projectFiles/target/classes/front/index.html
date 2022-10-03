@@ -63,7 +63,7 @@
                     <img src="./images/subtract.png" @click.prevent.stop="subtractCart(item)"/>
                   </div>
                   <div class="divDishNum">{{item.number}}</div>
-                  <div class="divTypes" v-if="item.flavors && item.flavors.length > 0 && !item.number " @click.prevent.stop="chooseFlavorClick(item)">选择规格</div>
+                  <div class="divTypes" v-if="item.flavors && item.flavors.length > 0 && !item.number " @click.prevent.stop="chooseFlavorClick(item)">specify</div>
                   <div class="divAdd" v-else>
                     <img src="./images/add.png" @click.prevent.stop="addCart(item)"/>
                   </div>
