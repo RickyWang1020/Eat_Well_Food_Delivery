@@ -33,12 +33,12 @@ This project is a Java web development that completes the backend features for a
 
 - Server side:
 
-    ![mobile_login](/demo/mobile_login.png)
-
-    ![mobile_interface](/demo/mobile_interface.png)
-
-- Client side:
-
     ![web_interface](/demo/web_interface.png)
 
     ![web_adddish](/demo/web_adddish.png)
+
+- Client side:
+
+    <img src="/demo/mobile_login.png" width=30% height=30%>
+
+    <img src="/demo/mobile_interface.png" width=26.7% height=26.7%>
