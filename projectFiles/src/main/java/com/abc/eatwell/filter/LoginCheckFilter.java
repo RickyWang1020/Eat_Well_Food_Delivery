@@ -32,7 +32,11 @@ public class LoginCheckFilter implements Filter {
                 "/front/**",
                 "/common/**",
                 "/user/sendMsg",
-                "/user/login"
+                "/user/login",
+                "/doc.html",
+                "/webjars/**",
+                "/swagger-resources",
+                "/v2/api-docs"
         };
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
@@ -70,7 +74,6 @@ public class LoginCheckFilter implements Filter {
 
         // 5. if not logged in, then response the data to the webpage using output stream
         response.getWriter().write(JSON.toJSONString(R.error("NOTLOGIN")));
-        return;
     }
 
     /**
