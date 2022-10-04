@@ -12,9 +12,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -33,6 +36,9 @@ public class DishController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     /**
      * add new dish
      * @param dishDto
@@ -40,7 +46,17 @@ public class DishController {
      */
     @PostMapping
     public R<String> save(@RequestBody DishDto dishDto) {
+
         dishService.saveWithFlavor(dishDto);
+
+        // clear all the cache for all dishes
+        // Set keys = redisTemplate.keys("dish_*");
+        // redisTemplate.delete(keys);
+
+        // only clear the cache for dishes under one category
+        String key = "dish_" + dishDto.getCategoryId() + "_1";
+        redisTemplate.delete(key);
+
         return R.success("add new dish success");
     }
 
@@ -109,7 +125,17 @@ public class DishController {
      */
     @PutMapping
     public R<String> update(@RequestBody DishDto dishDto) {
+
         dishService.updateWithFlavor(dishDto);
+
+        // clear all the cache for all dishes
+        // Set keys = redisTemplate.keys("dish_*");
+        // redisTemplate.delete(keys);
+
+        // only clear the cache for dishes under one category
+        String key = "dish_" + dishDto.getCategoryId() + "_1";
+        redisTemplate.delete(key);
+
         return R.success("add new dish success");
     }
 
@@ -138,6 +164,19 @@ public class DishController {
      */
     @GetMapping("/list")
     public R<List<DishDto>> list(Dish dish) {
+
+        List<DishDto> dishDtoList;
+
+        // get cached data from Redis
+        String key = "dish_" + dish.getCategoryId() + "_" + dish.getStatus();
+        dishDtoList = (List<DishDto>) redisTemplate.opsForValue().get(key);
+
+        // if the cached data is not empty, then just return it
+        if (dishDtoList != null) {
+            return R.success(dishDtoList);
+        }
+
+        // otherwise, query from the tables
         LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
         // query for all the dishes in this category
         queryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
@@ -146,7 +185,7 @@ public class DishController {
         queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
         List<Dish> lst = dishService.list(queryWrapper);
 
-        List<DishDto> dishDtoList = lst.stream().map(item -> {
+        dishDtoList = lst.stream().map(item -> {
             DishDto dishDto = new DishDto();
             BeanUtils.copyProperties(item, dishDto);
             Long categoryId = item.getCategoryId(); // category id
@@ -165,6 +204,9 @@ public class DishController {
             dishDto.setFlavors(dishFlavorList);
             return dishDto;
         }).collect(Collectors.toList());
+
+        // and save the queried dishes to Redis
+        redisTemplate.opsForValue().set(key, dishDtoList, 60, TimeUnit.MINUTES);
 
         return R.success(dishDtoList);
     }

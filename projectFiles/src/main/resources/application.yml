@@ -10,6 +10,14 @@ spring:
       url: jdbc:mysql://localhost:3306/eatwell?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=Convert_To_Null&useSSL=false&allowPublicKeyRetrieval=true
       username: root
       password: 123456789
+  redis:
+    host: 192.168.56.101
+    port: 6379
+    password: root@123456
+    database: 0
+  cache:
+    redis:
+      time-to-live: 180000
 
 mybatis-plus:
   configuration:

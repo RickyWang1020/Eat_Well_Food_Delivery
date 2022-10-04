@@ -1,6 +1,8 @@
 package com.abc.eatwell.common;
 
 import lombok.Data;
+
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +11,7 @@ import java.util.Map;
  * @param <T>
  */
 @Data
-public class R<T> {
+public class R<T> implements Serializable {
 
     private Integer code; // code: 1 is success, 0 and other numbers are error
 
